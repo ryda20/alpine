@@ -47,7 +47,10 @@ RUN \
 	echo "*** create directories ***" && \
 	mkdir -p ${USER_APP_DIR} ${USER_HOME_DIR} ${USER_WORKSPACE_DIR} ${USER_CONFIG_DIR} && \
 	echo "*** apply permission for directories was created ***" && \
-	chown -R ${USER_NAME}:${GROUP_NAME} ${USER_HOME_DIR} ${USER_APP_DIR} ${USER_WORKSPACE_DIR} ${USER_CONFIG_DIR} && \
+	chown -R ${USER_NAME}:${GROUP_NAME} ${USER_HOME_DIR} && \
+	chown -R ${USER_NAME}:${GROUP_NAME} ${USER_APP_DIR} && \
+	chown -R ${USER_NAME}:${GROUP_NAME} ${USER_WORKSPACE_DIR} && \
+	chown -R ${USER_NAME}:${GROUP_NAME} ${USER_CONFIG_DIR} && \
 	echo "**** cleanup ****" && \
 	rm -rf /tmp/* && \
 	rm -rf /var/cache/*
