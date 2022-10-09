@@ -1,6 +1,7 @@
 # alpine docker image
 
 * with basic setup:
+
   - user:       stduser         - MY_USER env
   - homedir:    /stduser        - MY_HOME env
   - appdir:     /app            - MY_APP env
