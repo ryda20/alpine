@@ -1,6 +1,6 @@
 # alpine docker image
 
-# with basic setup:
+with basic setup:
 
 ** ENV:
     
