@@ -46,10 +46,11 @@ RUN \
 	# -u UID          User id
 	# -k SKEL         Skeleton directory (/etc/skel)
 	echo "*** create directories ***" && \
-	mkdir -p ${MY_HOME} && \
-	mkdir -p ${MY_APPS} ${MY_WORKS} ${MY_CONF} && \
+	# mkdir -p ${MY_HOME} && \
+	mkdir -p ${MY_HOME} ${MY_APPS} ${MY_WORKS} ${MY_CONF} && \
 	echo "*** apply permission for directories was created ***" && \
 	chown -R ${MY_USER}:${MY_GROUP} ${MY_HOME} && \
+	chown ${MY_USER}:${MY_GROUP} ${MY_APPS} ${MY_CONF} ${MY_WORKS} && \
 	echo "**** cleanup ****" && \
 	rm -rf /tmp/* && \
 	rm -rf /var/cache/*
