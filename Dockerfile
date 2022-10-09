@@ -3,18 +3,18 @@
 FROM alpine:3.16
 
 ENV \
-	USER_NAME="stduser" \
-	GROUP_NAME="stduser" \
-	USER_HOME_DIR="/stduser" \
-	USER_APP_DIR="/app" \
-	USER_WORKSPACE_DIR="/workspace" \
-	USER_CONFIG_DIR="/config"
+	MY_USER="stduser" \
+	MY_GROUP="stduser" \
+	MY_HOME="/stduser" \
+	MY_APPS="/app" \
+	MY_WORKS="/workspace" \
+	MY_CONF="/config"
 
 # create standar user for rootless running: stdUser with uid/gid = 1000/1000
 # environment variables
 ENV \
 	PS1="$(whoami)@$(hostname):$(pwd)\\$ " \
-	PUID=1000 \
+	PUID=99 \
 	# container/su-exec UID:GID
 	PGID=1000
 
@@ -32,9 +32,10 @@ RUN \
 	tzdata #ENDRUN
 #
 RUN \
-	echo "**** create ${PUID}:${PGID} - ${USER_NAME}:${GROUP_NAME} and make our folders ****" && \
-	addgroup -g ${PGID} ${GROUP_NAME} && \
-	adduser -D -u ${PUID} -s /bin/ash ${USER_NAME} -G ${GROUP_NAME} -h ${USER_HOME_DIR} && \
+	echo "**** create ${PUID}:${PGID} - ${MY_USER}:${MY_GROUP} and make our folders ****" && \
+	# option -o allow to use exist id on the system
+	addgroup -g ${PGID} ${MY_GROUP} && \
+	adduser -D -u ${PUID} -s /bin/ash ${MY_USER} -G ${MY_GROUP} -h ${MY_HOME} && \
 	# -h DIR          Home directory
 	# -g GECOS        GECOS field
 	# -s SHELL        Login shell
@@ -45,12 +46,10 @@ RUN \
 	# -u UID          User id
 	# -k SKEL         Skeleton directory (/etc/skel)
 	echo "*** create directories ***" && \
-	mkdir -p ${USER_APP_DIR} ${USER_HOME_DIR} ${USER_WORKSPACE_DIR} ${USER_CONFIG_DIR} && \
+	mkdir -p ${MY_HOME} && \
+	mkdir -p ${MY_APPS} ${MY_WORKS} ${MY_CONF} && \
 	echo "*** apply permission for directories was created ***" && \
-	chown -R ${USER_NAME}:${GROUP_NAME} ${USER_HOME_DIR} && \
-	chown -R ${USER_NAME}:${GROUP_NAME} ${USER_APP_DIR} && \
-	chown -R ${USER_NAME}:${GROUP_NAME} ${USER_WORKSPACE_DIR} && \
-	chown -R ${USER_NAME}:${GROUP_NAME} ${USER_CONFIG_DIR} && \
+	chown -R ${MY_USER}:${MY_GROUP} ${MY_HOME} && \
 	echo "**** cleanup ****" && \
 	rm -rf /tmp/* && \
 	rm -rf /var/cache/*
